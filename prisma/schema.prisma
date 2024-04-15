@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Priority {
+  low
+  medium
+  high
+}
+
+model Task{
+  id Int @id @default(autoincrement())
+  title String
+  description String?
+  done Boolean @default(false)
+  priority Priority @default(low)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChecklistItem {
+  id          Int       @id @default(autoincrement())
+  checked     Boolean
+  description String
+  valor       Int
+  checklist   Checklist @relation(fields: [checklistId], references: [id])
+  checklistId Int
+}
+
+model Checklist {
+  id       Int            @id @default(autoincrement())
+  titulo   String
+  items    ChecklistItem[]
+}

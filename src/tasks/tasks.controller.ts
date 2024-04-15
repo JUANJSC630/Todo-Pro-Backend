@@ -1,66 +1,35 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Delete,
-  Put,
-  Body,
-  Param,
-  ConflictException,
-  NotFoundException,
-  HttpCode,
-} from '@nestjs/common';
-import { TasksService } from './tasks.service';
-import { CreateTaskDto } from '../dto/create-task.dto';
-import { UpdateTaskDto } from '../dto/update-task.dto';
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { TaskService } from "./tasks.service";
+import { Task } from "@prisma/client";
 
+//metodos que se comunican con el cliente
+//se encarga de recibir las peticiones y enviar las respuestas
 @Controller('tasks')
 export class TasksController {
-  constructor(private tasksService: TasksService) {}
+  constructor(private readonly tasksService: TaskService) {}
 
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const task = await this.tasksService.findOne(id);
-    if (!task) {
-      throw new NotFoundException('Task not found');
-    }
-    return task;
+  async getAllTasks() {
+    return this.tasksService.getAllTasks();
   }
 
   @Post()
-  async create(@Body() body: CreateTaskDto) {
-    try {
-      return await this.tasksService.create(body);
-    } catch (error) {
-      console.log(error);
-      if (error.code === 11000) {
-        throw new ConflictException('Task already exists');
-      }
-      throw error;
-    }
+  async createTask(@Body() data: Task) {
+    return this.tasksService.createTask(data);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() body: UpdateTaskDto) {
-    const task = await this.tasksService.update(id, body);
-    if (!task) {
-      throw new NotFoundException('Task not found');
-    }
-    return task;
+  @Get(':id')
+  async getTaskById(@Param('id') id: string){
+    return this.tasksService.getTaskById(Number(id));
   }
 
   @Delete(':id')
-  @HttpCode(204)
-  async delete(@Param('id') id: string) {
-    const task = await this.tasksService.delete(id);
-    if (!task) {
-      throw new NotFoundException('Task not found');
-    }
-    return task;
+  async deleteTask(@Param('id') id: string){
+    return this.tasksService.deleteTask(Number(id));
+  }
+
+  @Put(':id')
+  async updateTask(@Param('id') id: string, @Body() data: Task){
+    return this.tasksService.updateTask(Number(id), data);
   }
 }

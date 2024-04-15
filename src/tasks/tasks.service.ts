@@ -1,39 +1,44 @@
+//metodos que se comunican con la base de datos
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Task } from '../schemas/task.schema';
-import { CreateTaskDto } from '../dto/create-task.dto';
-import { UpdateTaskDto } from '../dto/update-task.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { Task } from '@prisma/client';
 
 @Injectable()
-export class TasksService {
-  // Inyección del modelo de datos de tareas proporcionado por Mongoose
-  constructor(@InjectModel('Task') private taskModel: Model<Task>) {}
+export class TaskService {
+    constructor(private prisma: PrismaService) {}
 
-  // Método para buscar todas las tareas
-  findAll() {
-    return this.taskModel.find();
-  }
+    async getAllTasks(): Promise<Task[]> {
+        return this.prisma.task.findMany();
+    }
 
-  // Método para crear una nueva tarea
-  async create(createTask: CreateTaskDto) {
-    // Crear una nueva instancia de Task utilizando el modelo y guardarla en la base de datos
-    const newTask = new this.taskModel(createTask);
-    return newTask.save();
-  }
+    async getTaskById(id: number): Promise<Task> {
+        return this.prisma.task.findUnique({
+            where: {
+                id: id,
+            },
+        });
+    }
 
-  // Método para encontrar una tarea por su ID
-  async findOne(id: string) {
-    return this.taskModel.findById(id);
-  }
+    async createTask(data: Task): Promise<Task> {
+        return this.prisma.task.create({
+            data,
+        });
+    }
 
-  // Método para eliminar una tarea por su ID
-  async delete(id: string) {
-    return this.taskModel.findByIdAndDelete(id);
-  }
+    async updateTask(id: number, data: Task): Promise<Task> {
+        return this.prisma.task.update({
+            where: {
+                id: id,
+            },
+            data,
+        });
+    }
 
-  // Método para actualizar una tarea por su ID
-  async update(id: string, updateTask: UpdateTaskDto) {
-    return this.taskModel.findByIdAndUpdate(id, updateTask, { new: true });
-  }
+    async deleteTask(id: number): Promise<Task> {
+        return this.prisma.task.delete({
+            where: {
+                id: id,
+            },
+        });
+    }
 }
