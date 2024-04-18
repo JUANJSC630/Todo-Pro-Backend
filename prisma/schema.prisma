@@ -31,17 +31,20 @@ model Task{
   updatedAt DateTime @updatedAt
 }
 
-model ChecklistItem {
-  id          Int       @id @default(autoincrement())
-  checked     Boolean
-  description String
-  valor       Int
-  checklist   Checklist @relation(fields: [checklistId], references: [id])
-  checklistId Int
+model Checklist {
+  id       Int      @id @default(autoincrement())
+  titulo   String
+  items    Item[]
 }
 
-model Checklist {
-  id       Int            @id @default(autoincrement())
-  titulo   String
-  items    ChecklistItem[]
+model Item {
+  id           Int       @id @default(autoincrement())
+  checked      Boolean @default(false)
+  description  String
+  valor        Int? @default(0)
+  checklist    Checklist @relation(fields: [checklistId], references: [id])
+  checklistId  Int
+
+  @@index([checklistId])
+  @@map("items")
 }
