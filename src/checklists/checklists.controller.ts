@@ -37,8 +37,12 @@ export class ChecklistsController {
     }
 
     @Delete(':id')
-    async deleteChecklist(@Param('id') id: string) {
-        return this.checklistService.deleteChecklist(Number(id));
+    async deleteChecklist(@Param('id') id: string, res: Response) {
+        try {
+            await this.checklistService.deleteChecklist(Number(id));
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     // Items endpoints

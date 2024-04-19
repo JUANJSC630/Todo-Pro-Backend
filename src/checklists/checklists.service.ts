@@ -68,12 +68,19 @@ export class ChecklistService {
         });
     }
 
-    async deleteChecklist(id: number): Promise<Checklist> {
-        return this.prisma.checklist.delete({
-            where: {
-                id: id,
-            },
-        });
+    async deleteChecklist(id: number): Promise<void> {
+        await this.prisma.$transaction([
+            this.prisma.item.deleteMany({
+                where: {
+                    checklistId: id,
+                },
+            }),
+            this.prisma.checklist.delete({
+                where: {
+                    id: id,
+                },
+            }),
+        ]);
     }
 
     // Items methods
