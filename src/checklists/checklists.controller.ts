@@ -58,6 +58,15 @@ export class ChecklistsController {
         );
     }
 
+    @Get(':checklistId/items')
+    async getAllItemsByChecklistId(
+        @Param('checklistId') checklistId: string,
+    ): Promise<Item[]> {
+        return this.checklistService.getAllItemsByChecklistId(
+            Number(checklistId),
+        );
+    }
+
     @Get(':checklistId/items/:itemId')
     async getItemById(@Param('itemId') itemId: string): Promise<Item> {
         return this.checklistService.getItemById(Number(itemId));

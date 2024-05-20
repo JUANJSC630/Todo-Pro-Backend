@@ -114,6 +114,14 @@ export class ChecklistService {
         });
     }
 
+    async getAllItemsByChecklistId(checklistId: number): Promise<Item[]> {
+        return this.prisma.item.findMany({
+            where: {
+                checklistId: checklistId,
+            },
+        });
+    }
+
     async updateItem(itemId: number, data: Partial<Item>): Promise<Item> {
         return this.prisma.item.update({
             where: {

@@ -35,6 +35,7 @@ model Checklist {
   id       Int      @id @default(autoincrement())
   titulo   String
   items    Item[]
+  createdAt DateTime @default(now())
 }
 
 model Item {
