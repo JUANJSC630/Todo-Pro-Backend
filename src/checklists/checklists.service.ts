@@ -1,7 +1,7 @@
 //metodos que se comunican con la base de datos
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Checklist, Item } from '@prisma/client';
+import { PrismaClient, Checklist, Item } from '@prisma/client';
 
 @Injectable()
 export class ChecklistService {
