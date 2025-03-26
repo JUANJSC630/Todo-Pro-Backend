@@ -1,73 +1,152 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Mellifera API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Mellifera API is a task and checklist management system designed to optimize work processes and increase productivity.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Business Description
 
-## Description
+Mellifera is a platform that allows users to efficiently organize and manage their daily tasks and workflows through:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Task Management**: Create, edit, mark, and organize tasks with different priority levels.
+- **Checklists**: Create lists with verifiable items for repetitive processes or standard procedures.
+- **Progress Tracking**: Monitor the status of completed and pending tasks.
+
+This API provides the backbone for front-end applications that require a robust task management system.
+
+## Technologies
+
+The project uses the following technologies:
+
+### Backend
+- **NestJS**: Progressive Node.js framework for building efficient and scalable server-side applications.
+- **TypeScript**: Programming language that adds static typing to JavaScript.
+- **Prisma ORM**: Modern ORM (Object-Relational Mapping) for Node.js and TypeScript that simplifies database access.
+- **PostgreSQL**: Relational database management system.
+
+### Technical Features
+- RESTful architecture
+- Data validation with class-validator and class-transformer
+- API with '/api' prefix
+- CORS support
+
+## Data Structure
+
+### Tasks
+- **Properties**: ID, title, description, status (completed/pending), priority (low/medium/high), creation and update dates.
+
+### Checklists
+- **Properties**: ID, title, items, creation date.
+
+### List Items
+- **Properties**: ID, status (checked/unchecked), description, value, reference to the checklist.
 
 ## Installation
 
 ```bash
+# Install dependencies
 $ npm install
+
+# Configure the database
+$ npx prisma migrate dev
 ```
 
-## Running the app
+## Execution
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
+# Development mode
 $ npm run start:dev
 
-# production mode
+# Production mode
 $ npm run start:prod
 ```
 
-## Test
+## Testing
 
 ```bash
-# unit tests
+# Unit tests
 $ npm run test
 
 # e2e tests
 $ npm run test:e2e
 
-# test coverage
+# Test coverage
 $ npm run test:cov
 ```
 
-## Support
+## API Documentation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+The API exposes endpoints to manage tasks and checklists under the `/api` prefix.
 
-## Stay in touch
+### Task Endpoints
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tasks` | Get all tasks |
+| POST | `/api/tasks` | Create a new task |
+| GET | `/api/tasks/:id` | Get a task by ID |
+| DELETE | `/api/tasks/:id` | Delete a task |
+| PUT | `/api/tasks/:id` | Update an existing task |
+
+#### Task Structure
+```json
+{
+  "id": 1,
+  "title": "Complete report",
+  "description": "Write monthly sales report",
+  "done": false,
+  "priority": "high",
+  "createdAt": "2023-05-24T10:00:00.000Z",
+  "updatedAt": "2023-05-24T10:00:00.000Z"
+}
+```
+
+### Checklist Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/checklists` | Get all checklists |
+| POST | `/api/checklists` | Create a new checklist with items |
+| GET | `/api/checklists/:id` | Get a checklist by ID |
+| DELETE | `/api/checklists/:id` | Delete a checklist |
+
+#### Checklist Structure
+```json
+{
+  "id": 1,
+  "titulo": "Sales process",
+  "createdAt": "2023-05-24T10:00:00.000Z",
+  "items": [
+    {
+      "id": 1,
+      "description": "Contact the client",
+      "checked": false,
+      "valor": 10,
+      "checklistId": 1
+    }
+  ]
+}
+```
+
+### Checklist Item Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/checklists/:checklistId/items` | Add an item to a checklist |
+| GET | `/api/checklists/:checklistId/items` | Get all items from a checklist |
+| GET | `/api/checklists/:checklistId/items/:itemId` | Get a specific item |
+| PUT | `/api/checklists/:checklistId/items/:itemId` | Update an item |
+| DELETE | `/api/checklists/:checklistId/items/:itemId` | Delete an item |
+
+#### Item Structure
+```json
+{
+  "id": 1,
+  "description": "Contact the client",
+  "checked": false,
+  "valor": 10,
+  "checklistId": 1
+}
+```
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the terms of Mellifera's private license.
