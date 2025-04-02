@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ChecklistsController } from './checklists.controller';
 import { ChecklistService } from './checklists.service';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from 'src/database/prisma/prisma.module';
 
 @Module({
     controllers: [ChecklistsController],

@@ -11,8 +11,6 @@ import {
 import { ChecklistService } from './checklists.service';
 import { Checklist, Item } from '@prisma/client';
 
-//metodos que se comunican con el cliente
-//se encarga de recibir las peticiones y enviar las respuestas
 @Controller('checklists')
 export class ChecklistsController {
     constructor(private readonly checklistService: ChecklistService) {}

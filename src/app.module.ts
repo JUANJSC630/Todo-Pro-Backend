@@ -1,12 +1,14 @@
 // app.module.ts
 import { Module } from '@nestjs/common';
-import { TasksModule } from './tasks/tasks.module';
-import { ChecklistsModule } from './checklists/checklists.module';
+import { TasksModule } from './modules/tasks/tasks.module';
+import { ChecklistsModule } from './modules/checklists/checklists.module';
+import { NotesModule } from './modules/notes/notes.module';
 
 @Module({
   imports: [
     TasksModule,
-    ChecklistsModule
+    ChecklistsModule,
+    NotesModule
   ],
   controllers: [],
   providers: [],
