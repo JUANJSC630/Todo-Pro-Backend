@@ -4,8 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,42 +19,42 @@ enum Priority {
   high
 }
 
-model Task{
-  id Int @id @default(autoincrement())
-  title String
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String
   description String?
-  done Boolean @default(false)
-  priority Priority @default(low)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  done        Boolean  @default(false)
+  priority    Priority @default(low)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Checklist {
-  id       Int      @id @default(autoincrement())
-  titulo   String
-  items    Item[]
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  items     Item[]
   createdAt DateTime @default(now())
 }
 
 model Item {
-  id           Int       @id @default(autoincrement())
-  checked      Boolean @default(false)
-  description  String
-  valor        Int? @default(0)
-  checklist    Checklist @relation(fields: [checklistId], references: [id])
-  checklistId  Int
+  id          Int       @id @default(autoincrement())
+  checked     Boolean   @default(false)
+  description String
+  valor       Int?      @default(0)
+  checklist   Checklist @relation(fields: [checklistId], references: [id])
+  checklistId Int
 
   @@index([checklistId])
   @@map("items")
 }
 
 model Note {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   title     String
   content   String
   color     String
   createdAt DateTime @default(now())
   isPinned  Boolean  @default(false)
-  
+
   @@map("notes")
 }
