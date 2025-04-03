@@ -9,7 +9,7 @@ import {
     Put,
 } from '@nestjs/common';
 import { ChecklistService } from './checklists.service';
-import { Checklist, Item } from '@prisma/client';
+import { Checklists, Item } from '@prisma/client';
 
 @Controller('checklists')
 export class ChecklistsController {
@@ -25,7 +25,7 @@ export class ChecklistsController {
     @Post()
     async createChecklistWithItems(
         @Body() data: { titulo: string; items: Item[] },
-    ): Promise<Checklist> {
+    ): Promise<Checklists> {
         return this.checklistService.createChecklistWithItems(data);
     }
 

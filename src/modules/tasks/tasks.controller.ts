@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { TaskService } from "./tasks.service";
-import { Task } from "@prisma/client";
+import { Tasks } from "@prisma/client";
 
 //metodos que se comunican con el cliente
 //se encarga de recibir las peticiones y enviar las respuestas
@@ -14,7 +14,7 @@ export class TasksController {
   }
 
   @Post()
-  async createTask(@Body() data: Task) {
+  async createTask(@Body() data: Tasks) {
     return this.tasksService.createTask(data);
   }
 
@@ -29,7 +29,7 @@ export class TasksController {
   }
 
   @Put(':id')
-  async updateTask(@Param('id') id: string, @Body() data: Task){
+  async updateTask(@Param('id') id: string, @Body() data: Tasks){
     return this.tasksService.updateTask(Number(id), data);
   }
 }

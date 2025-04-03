@@ -1,32 +1,32 @@
 //metodos que se comunican con la base de datos
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { Task } from '@prisma/client';
+import { Tasks } from '@prisma/client';
 
 @Injectable()
 export class TaskService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService) { }
 
-    async getAllTasks(): Promise<Task[]> {
-        return this.prisma.task.findMany();
+    async getAllTasks(): Promise<Tasks[]> {
+        return this.prisma.tasks.findMany();
     }
 
-    async getTaskById(id: number): Promise<Task> {
-        return this.prisma.task.findUnique({
+    async getTaskById(id: number): Promise<Tasks> {
+        return this.prisma.tasks.findUnique({
             where: {
                 id: id,
             },
         });
     }
 
-    async createTask(data: Task): Promise<Task> {
-        return this.prisma.task.create({
+    async createTask(data: Tasks): Promise<Tasks> {
+        return this.prisma.tasks.create({
             data,
         });
     }
 
-    async updateTask(id: number, data: Task): Promise<Task> {
-        return this.prisma.task.update({
+    async updateTask(id: number, data: Tasks): Promise<Tasks> {
+        return this.prisma.tasks.update({
             where: {
                 id: id,
             },
@@ -34,8 +34,8 @@ export class TaskService {
         });
     }
 
-    async deleteTask(id: number): Promise<Task> {
-        return this.prisma.task.delete({
+    async deleteTask(id: number): Promise<Tasks> {
+        return this.prisma.tasks.delete({
             where: {
                 id: id,
             },

@@ -1,7 +1,7 @@
 //metodos que se comunican con la base de datos
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/database/prisma/prisma.service';
-import { Checklist, Item } from '@prisma/client';
+import { Checklists, Item } from '@prisma/client';
 
 @Injectable()
 export class ChecklistService {
@@ -9,16 +9,16 @@ export class ChecklistService {
 
     // Checklists methods
 
-    async getAllChecklist(): Promise<Checklist[]> {
-        return this.prisma.checklist.findMany({
+    async getAllChecklist(): Promise<Checklists[]> {
+        return this.prisma.checklists.findMany({
             include: {
                 items: true,
             },
         });
     }
 
-    async getChecklistById(id: number): Promise<Checklist> {
-        return this.prisma.checklist.findUnique({
+    async getChecklistById(id: number): Promise<Checklists> {
+        return this.prisma.checklists.findUnique({
             where: {
                 id: id,
             },
@@ -31,11 +31,11 @@ export class ChecklistService {
     async createChecklistWithItems(data: {
         titulo: string;
         items: Item[];
-    }): Promise<Checklist> {
+    }): Promise<Checklists> {
         const { titulo, items } = data;
 
         // Crear la lista de verificación
-        const checklist = await this.prisma.checklist.create({
+        const checklist = await this.prisma.checklists.create({
             data: {
                 titulo,
             },
@@ -57,8 +57,8 @@ export class ChecklistService {
         return checklist;
     }
 
-    async updateChecklist(id: number, data: Partial<Checklist>): Promise<Checklist> {
-        return this.prisma.checklist.update({
+    async updateChecklist(id: number, data: Partial<Checklists>): Promise<Checklists> {
+        return this.prisma.checklists.update({
             where: {
                 id: id,
             },
@@ -75,7 +75,7 @@ export class ChecklistService {
                     checklistId: id,
                 },
             }),
-            this.prisma.checklist.delete({
+            this.prisma.checklists.delete({
                 where: {
                     id: id,
                 },
@@ -86,7 +86,7 @@ export class ChecklistService {
     // Items methods
     async addItemToChecklist(checklistId: number, itemData): Promise<Item> {
         // Verificar si la lista de verificación existe
-        const checklist = await this.prisma.checklist.findUnique({
+        const checklist = await this.prisma.checklists.findUnique({
             where: { id: checklistId },
             include: { items: true }, // Incluir los items asociados a la lista de verificación
         });
