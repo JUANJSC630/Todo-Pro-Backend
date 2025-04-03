@@ -44,7 +44,7 @@ export class NotesController {
   @Get(':id')
   async getNoteById(@Param('id') id: string) {
     try {
-      const note = await this.notesService.getNoteById(id);
+      const note = await this.notesService.getNoteById(Number(id));
       if (!note) {
         throw new NotFoundException({
             message: 'Nota no encontrada',
@@ -67,7 +67,7 @@ export class NotesController {
   @Delete(':id')
   async deleteNote(@Param('id') id: string) {
     try {
-      const note = await this.notesService.getNoteById(id);
+      const note = await this.notesService.getNoteById(Number(id));
       if (!note) {
         throw new NotFoundException({
           message: 'Note not found',
@@ -75,7 +75,7 @@ export class NotesController {
           statusCode: HttpStatus.NOT_FOUND
         });
       }
-      return await this.notesService.deleteNote(id);
+      return await this.notesService.deleteNote(Number(id));
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;
@@ -90,7 +90,7 @@ export class NotesController {
   @Put(':id')
   async updateNote(@Param('id') id: string, @Body() note: Note) {
     try {
-      const existingNote = await this.notesService.getNoteById(id);
+      const existingNote = await this.notesService.getNoteById(Number(id));
       if (!existingNote) {
         throw new NotFoundException({
           message: 'Note not found',
@@ -98,7 +98,7 @@ export class NotesController {
           statusCode: HttpStatus.NOT_FOUND
         });
       }
-      return await this.notesService.updateNote(id, note);
+      return await this.notesService.updateNote(Number(id), note);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw error;

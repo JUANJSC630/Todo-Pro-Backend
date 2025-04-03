@@ -27,6 +27,8 @@ model Task {
   priority    Priority @default(low)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  @@map("tasks")
 }
 
 model Checklist {
@@ -34,6 +36,8 @@ model Checklist {
   titulo    String
   items     Item[]
   createdAt DateTime @default(now())
+  
+  @@map("checklists")
 }
 
 model Item {
@@ -55,6 +59,6 @@ model Note {
   color     String
   createdAt DateTime @default(now())
   isPinned  Boolean  @default(false)
-
+  
   @@map("notes")
 }
