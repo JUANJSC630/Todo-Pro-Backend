@@ -11,7 +11,7 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { Note } from '@prisma/client';
+import { NoteDto } from './dto/note.dto';
 
 @Controller('notes')
 export class NotesController {
@@ -30,7 +30,7 @@ export class NotesController {
   }
 
   @Post()
-  async createNote(@Body() note: Note) {
+  async createNote(@Body() note: NoteDto) {
     try {
       return await this.notesService.createNote(note);
     } catch (error) {
@@ -88,7 +88,7 @@ export class NotesController {
   }
 
   @Put(':id')
-  async updateNote(@Param('id') id: string, @Body() note: Note) {
+  async updateNote(@Param('id') id: string, @Body() note: NoteDto) {
     try {
       const existingNote = await this.notesService.getNoteById(Number(id));
       if (!existingNote) {
