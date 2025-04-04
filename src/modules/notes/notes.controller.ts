@@ -13,6 +13,7 @@ import {
 import { NotesService } from './notes.service';
 import { Notes } from '@prisma/client';
 
+// Controller para el manejo de notas
 @Controller('notes')
 export class NotesController {
   constructor(private readonly notesService: NotesService) { }
